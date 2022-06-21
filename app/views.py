@@ -154,4 +154,11 @@ def singlehood(request, neighbourhood_id):
     return render(request, 'single.html', {'neighbourhood': neighbourhood,'businesses':businesses, 'posts':posts,})
 
 
-@login_required(login_url='/login')    
+@login_required(login_url='/login')
+
+def user_join_hood(request,id):
+    neighbour = Neighbourhood.objects.get(id=id)
+    current_user =request.user
+    current_user.profile.neighbour = neighbour
+    current_user.profile.save()
+    return redirect('hoods')
