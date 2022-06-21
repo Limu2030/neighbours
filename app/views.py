@@ -67,3 +67,13 @@ def user_profile(request):
 
 
 @login_required(login_url='/login')
+
+def update_profile(request):
+    if request.method == 'POST':
+        userprofileform = ProfileUpdateForm(request.POST,request.FILES,instance=request.user.profile)
+        if  userprofileform.is_valid():
+            userprofileform.save()
+            return redirect(to='profile')
+    else:
+        form=ProfileUpdateForm(instance =request.user.profile)
+    return render(request,'update_profile.html', {'form':form})
