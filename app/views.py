@@ -56,3 +56,14 @@ def user_logout(request):
 
 #user_profile
 @login_required(login_url='/login')
+
+def user_profile(request):
+    users= User.objects.all()
+    current_user = request.user
+    user_posts = Post.objects.filter(person=current_user)
+    print(user_posts)
+    
+    return render (request, 'profile.html', {'users':users, 'user_posts':user_posts})
+
+
+@login_required(login_url='/login')
