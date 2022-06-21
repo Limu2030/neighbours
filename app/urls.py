@@ -20,5 +20,7 @@ urlpatterns = [
       path('add_business/<int:neighbourhood_id>', views.create_business, name ='business'),
 
       path('add_neighbourhood/', views.create_hood, name='neighbourhood'),
+
+        path('hoods/', views.view_hoods, name ='hoods'),
   
 ]
