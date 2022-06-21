@@ -1,6 +1,9 @@
 from django.urls import path
-#now import the views.py file into this code
 from . import views
-urlpatterns=[
-path('',views.index)
+from .views import SearchResultsView
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    
+    path('register/', views.register, name='register'),
 ]
