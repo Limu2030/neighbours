@@ -162,3 +162,12 @@ def user_join_hood(request,id):
     current_user.profile.neighbour = neighbour
     current_user.profile.save()
     return redirect('hoods')
+
+@login_required(login_url='/login')
+def user_leave_hood(request,id):
+    neighbour = get_object_or_404(Neighbourhood, id=id)
+    current_user =request.user
+    current_user.profile.neighbour = None
+    current_user.profile.save()
+    return redirect('hoods')
+
