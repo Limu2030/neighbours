@@ -36,3 +36,23 @@ def register(request):
         return redirect ("login") 
     return render(request, 'register.html')
 
+
+def user_login(request):
+    if request.method =='POST':
+        username = request.POST['username']
+        password = request.POST['password']  
+        
+        user = authenticate (request,username=username,password=password)
+        if user is not None:
+            login(request,user)
+            messages.success(request,"Welcome , you are now logged in")
+            return redirect ("home")
+    return render(request, 'login.html')
+
+@login_required(login_url='/login')
+def user_logout(request):
+    logout(request)
+    return render(request, 'index.html')
+
+#user_profile
+@login_required(login_url='/login')
