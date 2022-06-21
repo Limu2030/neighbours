@@ -28,4 +28,6 @@ urlpatterns = [
 
 
     path('leave/<int:id>',views.user_leave_hood, name="leave")
+
+     path('search/', SearchResultsView.as_view(), name='search'),
 ]
