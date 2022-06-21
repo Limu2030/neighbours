@@ -171,3 +171,13 @@ def user_leave_hood(request,id):
     current_user.profile.save()
     return redirect('hoods')
 
+class SearchResultsView(ListView):
+    model = Business
+    template_name = "search_results.html"
+    
+    def get_queryset(self):  # new
+        query = self.request.GET.get("query")
+        object_list = Business.objects.filter(
+            Q(business_name__icontains=query)
+        )
+        return 
