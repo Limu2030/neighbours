@@ -181,3 +181,8 @@ class SearchResultsView(ListView):
             Q(business_name__icontains=query)
         )
         return 
+
+@login_required(login_url='/login')
+def all_businesses(request):
+    all=Business.objects.all()
+    return render(request, 'all.html', {'all':all})
