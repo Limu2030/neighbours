@@ -113,3 +113,31 @@ def create_business(request, neighbourhood_id):
 
 #User Join hood
 @login_required(login_url='/login')
+
+def create_hood(request):
+    neighbourhood_credentials = Profile.objects.all()
+    # profile = Profile.objects.get(user=admin_id)
+    if request.method=='POST':
+        image=request.FILES.get('image')
+        describe=request.POST.get('describe')
+        name =request.POST.get('name')
+        neighbourhood_location=request.POST.get('location')
+        occupants_count=request.POST.get('count')
+        health_contacts=request.POST.get('contact')
+        police_contacts=request.POST.get('police') 
+        
+        
+        neighbourhoods=Neighbourhood(image=image,describe=describe,name=name,neighbourhood_location=neighbourhood_location,health_contacts=health_contacts,police_contacts=police_contacts,
+        occupants_count=occupants_count )
+        
+        neighbourhoods.admin_id= request.user                      
+        
+        
+        neighbourhoods.save_neighbourhood()
+        
+        return redirect('home')
+    
+    return render (request, 'hood.html', {'neighbourhood_credentials':neighbourhood_credentials})
+
+
+@login_required(login_url='/login')
