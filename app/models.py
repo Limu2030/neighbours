@@ -70,3 +70,31 @@ class Post(models.Model):
         
     def update_post(self):
         self.update()
+
+ 
+class Business(models.Model):
+    business_name = models.CharField(max_length = 100)
+    business_email_address = models.EmailField(max_length=100)
+    user_id= models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    neighbourhood_id = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, null=True, blank=True)
+    business_image = CloudinaryField('business_image' , null=True)
+    
+    def __str__(self):
+        return self.business_name
+    
+    
+    def save_businesses(self):
+        self.save()
+        
+        
+    def delete_businesses(self):
+        self.delete()
+        
+    def update_businesses(self):
+        self.update()
+        
+     
+    @classmethod
+    def get_hood_business(cls,id):
+        business = Business.objects.filter(neighbourhood_id__pk = id)
+        return business
