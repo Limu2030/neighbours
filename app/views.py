@@ -141,3 +141,7 @@ def create_hood(request):
 
 
 @login_required(login_url='/login')
+
+def view_hoods(request):
+    hoods=Neighbourhood.objects.all()
+    return render(request, 'hoods.html', {'hoods':hoods})
