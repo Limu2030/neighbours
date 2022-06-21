@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from .models import * 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
-# from .forms import ProfileUpdateForm
+from .forms import ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 
 #SEARCH IMPORTS
@@ -56,7 +56,6 @@ def user_logout(request):
 
 #user_profile
 @login_required(login_url='/login')
-
 def user_profile(request):
     users= User.objects.all()
     current_user = request.user
@@ -67,7 +66,6 @@ def user_profile(request):
 
 
 @login_required(login_url='/login')
-
 def update_profile(request):
     if request.method == 'POST':
         userprofileform = ProfileUpdateForm(request.POST,request.FILES,instance=request.user.profile)
@@ -78,6 +76,8 @@ def update_profile(request):
         form=ProfileUpdateForm(instance =request.user.profile)
     return render(request,'update_profile.html', {'form':form})
 
+
+@login_required(login_url='/login')
 def user_post(request):
     if request.method=='POST':
         title=request.POST.get('title')
@@ -92,28 +92,6 @@ def user_post(request):
     return render(request, 'post.html')
 
 @login_required(login_url='/login')
-
-def create_business(request, neighbourhood_id):
-    
-    businesses=Business.objects.all()
-    user = request.user
-    if request.method=='POST':
-        business_name =request.POST.get('name')
-        business_email_address=request.POST.get('email')
-        business_image=request.FILES.get('image')
-        user_id=request.user
-        
-        
-        businesses=Business(business_name=business_name,business_email_address=business_email_address,business_image=business_image,user_id=user_id,neighbourhood_id=Neighbourhood.objects.get(id=neighbourhood_id ))
-        
-        businesses.save_businesses()
-        
-        return redirect('single',neighbourhood_id )
-    return render(request, 'bus.html', {'businesses':businesses})
-
-#User Join hood
-@login_required(login_url='/login')
-
 def create_hood(request):
     neighbourhood_credentials = Profile.objects.all()
     # profile = Profile.objects.get(user=admin_id)
@@ -141,7 +119,6 @@ def create_hood(request):
 
 
 @login_required(login_url='/login')
-
 def view_hoods(request):
     hoods=Neighbourhood.objects.all()
     return render(request, 'hoods.html', {'hoods':hoods})
@@ -155,7 +132,26 @@ def singlehood(request, neighbourhood_id):
 
 
 @login_required(login_url='/login')
+def create_business(request, neighbourhood_id):
+    
+    businesses=Business.objects.all()
+    user = request.user
+    if request.method=='POST':
+        business_name =request.POST.get('name')
+        business_email_address=request.POST.get('email')
+        business_image=request.FILES.get('image')
+        user_id=request.user
+        
+        
+        businesses=Business(business_name=business_name,business_email_address=business_email_address,business_image=business_image,user_id=user_id,neighbourhood_id=Neighbourhood.objects.get(id=neighbourhood_id ))
+        
+        businesses.save_businesses()
+        
+        return redirect('single',neighbourhood_id )
+    return render(request, 'bus.html', {'businesses':businesses})
 
+#User Join hood
+@login_required(login_url='/login')
 def user_join_hood(request,id):
     neighbour = Neighbourhood.objects.get(id=id)
     current_user =request.user
@@ -163,6 +159,7 @@ def user_join_hood(request,id):
     current_user.profile.save()
     return redirect('hoods')
 
+#user_leave
 @login_required(login_url='/login')
 def user_leave_hood(request,id):
     neighbour = get_object_or_404(Neighbourhood, id=id)
@@ -170,6 +167,9 @@ def user_leave_hood(request,id):
     current_user.profile.neighbour = None
     current_user.profile.save()
     return redirect('hoods')
+
+
+#Search function
 
 class SearchResultsView(ListView):
     model = Business
@@ -180,9 +180,10 @@ class SearchResultsView(ListView):
         object_list = Business.objects.filter(
             Q(business_name__icontains=query)
         )
-        return 
+        return object_list
 
 @login_required(login_url='/login')
 def all_businesses(request):
     all=Business.objects.all()
     return render(request, 'all.html', {'all':all})
+

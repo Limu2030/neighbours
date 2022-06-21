@@ -28,7 +28,8 @@ class Neighbourhood(models.Model):
         
     def update_neighbourhood(self):
         self.update()
-
+        
+#profile
 class Profile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
     location = models.CharField(max_length=100)
@@ -49,8 +50,17 @@ class Profile(models.Model):
         self.delete()
         
     def update_Profile(self):
-        self.update()        
-
+        self.update()
+      
+# class User(models.Model):
+#     first_name = models.CharField(max_length=30, null=True)
+#     last_name = models.CharField(max_length=30, null=True)
+#     username =models.CharField(max_length=100 , null=True)
+#     email_address = models.EmailField(max_length=100, null=True)
+#     password = models.CharField(max_length=100, null=True)
+#     neighbourhood_id = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE, null=True, blank=True)
+    
+    
 class Post(models.Model):
     title = models.CharField(max_length=100, null=True)
     post_description = models.TextField(null=True,)
@@ -70,8 +80,8 @@ class Post(models.Model):
         
     def update_post(self):
         self.update()
-
- 
+    
+    
 class Business(models.Model):
     business_name = models.CharField(max_length = 100)
     business_email_address = models.EmailField(max_length=100)
