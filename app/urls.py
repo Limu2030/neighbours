@@ -25,4 +25,7 @@ urlpatterns = [
 
     path('hoods/<int:neighbourhood_id>/', views.singlehood, name='single'),
     path('join/<int:id>',views.user_join_hood, name="join"), 
+
+
+    path('leave/<int:id>',views.user_leave_hood, name="leave")
 ]
