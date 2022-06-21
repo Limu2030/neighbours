@@ -77,3 +77,18 @@ def update_profile(request):
     else:
         form=ProfileUpdateForm(instance =request.user.profile)
     return render(request,'update_profile.html', {'form':form})
+
+def user_post(request):
+    if request.method=='POST':
+        title=request.POST.get('title')
+        post_description=request.POST.get('description')
+        post_image=request.FILES.get('post_image')
+        
+        posts=Post(post_image=post_image,title=title,post_description=post_description)
+        
+        posts.save_post()
+        
+        return redirect('home')
+    return render(request, 'post.html')
+
+@login_required(login_url='/login')
