@@ -92,3 +92,24 @@ def user_post(request):
     return render(request, 'post.html')
 
 @login_required(login_url='/login')
+
+def create_business(request, neighbourhood_id):
+    
+    businesses=Business.objects.all()
+    user = request.user
+    if request.method=='POST':
+        business_name =request.POST.get('name')
+        business_email_address=request.POST.get('email')
+        business_image=request.FILES.get('image')
+        user_id=request.user
+        
+        
+        businesses=Business(business_name=business_name,business_email_address=business_email_address,business_image=business_image,user_id=user_id,neighbourhood_id=Neighbourhood.objects.get(id=neighbourhood_id ))
+        
+        businesses.save_businesses()
+        
+        return redirect('single',neighbourhood_id )
+    return render(request, 'bus.html', {'businesses':businesses})
+
+#User Join hood
+@login_required(login_url='/login')
