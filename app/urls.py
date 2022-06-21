@@ -24,5 +24,5 @@ urlpatterns = [
     path('hoods/', views.view_hoods, name ='hoods'),
 
     path('hoods/<int:neighbourhood_id>/', views.singlehood, name='single'),
-  
+    path('join/<int:id>',views.user_join_hood, name="join"), 
 ]
