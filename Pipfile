@@ -13,6 +13,7 @@ dj-database-url = "*"
 bootstrap4 = "*"
 django-heroku = "*"
 python-decouple = "*"
+pillow = "*"
 
 [dev-packages]
 
